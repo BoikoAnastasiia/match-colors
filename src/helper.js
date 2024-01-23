@@ -15,13 +15,17 @@ export const calculateColorDifference = (color1, color2) => {
       Math.pow(c1.g - c2.g, 2) +
       Math.pow(c1.b - c2.b, 2)
   );
-
   return diff;
 };
 
-export const findClosestColor = (targetColor, colorArray, usedColors) => {
+export const findClosestColor = (
+  targetColor,
+  colorArray,
+  usedColors,
+  excludeIndex
+) => {
   const availableColors = colorArray.filter(
-    (color) => !usedColors.has(color) && color !== targetColor
+    (color, index) => !usedColors.has(color) && index !== excludeIndex
   );
 
   if (availableColors.length === 0) {
@@ -29,27 +33,37 @@ export const findClosestColor = (targetColor, colorArray, usedColors) => {
   }
 
   const closestColor = availableColors.reduce(
-    (closest, current) => {
+    (closest, current, index) => {
       const difference = calculateColorDifference(targetColor, current);
 
       if (difference < closest.difference) {
-        return { color: current, difference };
+        return { color: current, difference, index };
       }
 
       return closest;
     },
-    { color: availableColors[0], difference: Infinity }
+    { color: availableColors[0], difference: Infinity, index: 0 }
   );
 
   return closestColor.color;
 };
 
 export const getResultColors = (workspaceColors, multiColors) => {
-  const usedColors = new Set();
+  const result = [];
 
-  return multiColors.map((color) => {
-    const closestColor = findClosestColor(color, workspaceColors, usedColors);
-    usedColors.add(closestColor);
-    return closestColor;
+  multiColors.forEach((multiColor) => {
+    // Exclude colors close to black and white based on the condition
+    const isExcluded =
+      calculateColorDifference(multiColor, "#000000") < 100 ||
+      calculateColorDifference(multiColor, "#FFFFFF") < 10;
+
+    const closestColor = isExcluded
+      ? multiColor
+      : findClosestColor(multiColor, workspaceColors, new Set(result));
+
+    // Add the closest color to the result array
+    result.push(closestColor);
   });
+
+  return result;
 };
