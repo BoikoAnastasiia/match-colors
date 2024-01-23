@@ -1,0 +1,117 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  width: 600px;
+  margin: auto;
+}
+
+body {
+  background-color: rgb(42, 42, 60);
+  color: white;
+}
+
+.color_list {
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.color_rect:hover button {
+  display: flex;
+}
+
+.color_list .color_rect {
+  width: 50px;
+  height: 50px;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+  outline: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.color_rect button {
+  display: flex;
+}
+
+.color_list input:focus,
+.color_list input:hover {
+  border: rgb(117, 117, 119) 2px solid;
+  cursor: pointer;
+}
+
+.color_rect button {
+  color: white;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  font-size: 12px;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  top: -2px;
+  right: -2px;
+  z-index: 5;
+  background-color: rgb(148, 103, 103);
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+.color_rect button:hover {
+  background-color: red;
+}
+
+.color_rect .add_button {
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  border-radius: 0;
+  border: 1px solid gray;
+  background-color: transparent;
+  font-size: 27px;
+  position: static;
+  display: block;
+}
+
+.color_rect .add_button:hover {
+  background-color: rgba(119, 118, 118, 0.594);
+}
+
+.color_rect .copy_button {
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  text-wrap: wrap;
+}
+
+.color_rect .copy_button:hover {
+  background-color: transparent;
+}
+
+.backdrop {
+  width: 100%;
+  height: 100%;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.383);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.color_rect:hover .backdrop {
+  display: block;
+}
+
+.color_rect:hover .copy_button {
+  cursor: copy;
+  flex-direction: column;
+}
+
+.color_list .copy_button:hover {
+  background-color: transparent;
+}
